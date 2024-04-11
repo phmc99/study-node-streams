@@ -12,7 +12,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node --watch src/index.js"
   },
   "keywords": [],
   "author": "",
