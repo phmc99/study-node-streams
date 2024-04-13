@@ -9,9 +9,24 @@ export const routes = [
     method: "GET",
     path: buildRoutePath("/tasks"),
     handle: (req, res) => {
+
+      const { title, description } = req.query
+
+      const tasks = db.list('tasks')
+
+      let response
+
+      if (title && description) {
+        response = tasks.filter(item => item.title.includes(title) && item.description.includes(description))
+      } else if (title) {
+        response = tasks.filter(item => item.title.includes(title))
+      } else if (description) {
+        response = tasks.filter(item => item.description.includes(description))
+      }
+
       return res
       .setHeader("Content-Type", "application/json")
-      .end(JSON.stringify(db.list('tasks')));
+      .end(JSON.stringify(response || tasks));
     }
   },
   {
