@@ -34,4 +34,23 @@ export class Database {
   list(table) {
     return this.#database[table] || []
   }
+
+  update(table, id, data) {
+    const dataIndex = this.#database[table].findIndex(item => item.id === id)
+    const currentData = this.#database[table].find(item => item.id === id)
+
+    if (dataIndex !== -1) {
+      this.#database[table][dataIndex] = {...currentData, ...data}
+      this.#persist()
+    } 
+  }
+
+  delete(table, id) {
+    const dataIndex = this.#database[table].findIndex(item => item.id === id)
+
+    if (dataIndex !== -1) {
+      this.#database[table].splice(dataIndex, 1)
+      this.#persist()
+    }
+  }
 }

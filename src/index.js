@@ -13,9 +13,14 @@ const server = http.createServer(async (req, res) => {
     req.body = null
   }
 
-  const route = routes.find(r => r.method === method && r.path === url)
+  const route = routes.find(r => r.method === method && r.path.test(url))
 
-  if (route) return route.handle(req, res)
+  if (route) {
+    const routeParams = req.url.match(route.path)
+    req.params = routeParams.groups
+
+    return route.handle(req, res)
+  }
 
   res.end("Desafio 1");
 })
